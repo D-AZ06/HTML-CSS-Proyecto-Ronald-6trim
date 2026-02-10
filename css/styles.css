@@ -1,145 +1,149 @@
-/* 1. RESET PARA ELIMINAR ESPACIOS EXTRA */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+/* RESET */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: #0b0e14; color: white; scroll-behavior: smooth; }
 
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #0b0e14; /* Color oscuro como el de tu captura */
-    color: white;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-/* 2. HEADER: Ocupa todo el ancho superior */
-header {
-    width: 100%;
-    background-color: #1a1d23;
-    border: 1px solid #333;
+h2 {
     text-align: center;
-    padding: 20px;
-    margin-bottom: 20px;
 }
 
-header img {
-    max-width: 180px;
-    display: block;
-    margin: 0 auto 10px;
+/* HEADER TIPO FACEBOOK */
+header {
+    position: sticky;
+    top: -265px; /* Aumentamos un poco más para asegurar el cierre total */
+    z-index: 1000;
+    background: #1a1d23;
+    text-align: center;
+    overflow: hidden; /* Corta cualquier sobrante de imagen */
 }
 
-/* 3. CONTENEDOR PRINCIPAL (GRID) */
-main {
-    display: grid;
-    /* Columna 1: 200px (Barra lateral) | Columna 2: 1fr (Secciones) */
-    grid-template-columns: 200px 1fr;
-    gap: 20px;
-    align-items: start;
+.header-top {
+    padding: 10px;
+    /* Ajustamos la altura para que el logo y textos queden cómodos */
+    min-height: 250px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Barra lateral izquierda principal */
-.barra-lateral-principal {
-    background-color: #1a1d23;
-    border: 1px solid #333;
-    padding: 15px;
-    height: fit-content;
+.header-top img {
+    max-width: 80%; /* Evita que el logo se salga de la pantalla */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.barra-menu {
+    position: sticky;
+    top: 0; 
+    background: #1a1d23;
+    padding: 15px 0;
+    border-bottom: 2px solid #ed1c24;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
 .menu a {
-    display: block;
-    padding: 12px;
-    margin-bottom: 8px;
-    color: #ccc;
-    text-decoration: none;
-    border-bottom: 1px solid #333;
-    transition: 0.3s;
-}
-
-.menu a:hover {
-    background-color: #333;
+    padding: 8px 15px;
+    background: #2a2e35;
     color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
 }
 
-/* 4. LÓGICA DE SECCIONES (OCULTAR/MOSTRAR) */
+/* --- LÓGICA DE SECCIONES (FIJADA) --- */
 
-/* Por defecto, todas las secciones con clase .bloque están ocultas */
-section.bloque {
-    display: none; 
-    grid-template-columns: 1fr 200px; /* Contenido | Barra lateral derecha */
-    gap: 20px;
-    background-color: #1a1d23;
-    border: 1px solid #333;
-    padding: 20px;
+main { padding: 20px; }
+
+/* 1. Ocultar todas las secciones por defecto */
+.bloque {
+    display: none;
+    padding-top: 100px;    /* Empuja el título hacia abajo para que el menú no lo tape */
+    margin-top: -60px;     /* Compensa el espacio para que no haya un hueco negro gigante */
 }
 
-/* MOSTRAR INICIO POR DEFECTO: 
-   Se muestra cuando NO hay un destino (#) en la URL */
+/* 2. Mostrar la sección que sea el "Target" (clic en el menú) */
+.bloque:target {
+    display: block !important;
+    padding-top: 280px;    /* ← Aumenta: 250px(.header-top) + 30px(.barra-menu) */
+    margin-top: -60px;
+}
+
+/* 3. Lógica especial para INICIO: 
+   Se muestra si la URL termina en index.html, en "/" o en "#inicio" */
 #inicio {
     display: block; 
 }
 
-/* Si el usuario selecciona cualquier otra sección, ocultamos el inicio */
-main:has(section:target) #inicio {
-    display: none !important;
+/* 4. Si hay OTRO target que NO sea inicio, ocultamos el inicio definitivamente */
+body:has(section:target:not(#inicio)) #inicio {
+    display: none;
 }
 
-/* Mostrar la sección que sea el destino actual del clic */
-section:target {
-    display: grid !important;
-}
-
-/* 5. DISEÑO INTERNO DE LAS SECCIONES */
-.contenido {
+/* --- CARRUSEL AUTOMÁTICO --- */
+.carrusel {
     width: 100%;
-}
-
-/* La barra que en tu dibujo está a la derecha */
-.barra-lateral-derecha {
-    background-color: #0b0e14;
+    max-width: 500px;
+    height: 300px;
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 12px;
     border: 1px solid #333;
-    padding: 15px;
-    height: fit-content;
-}
-
-.barra-lateral-derecha a {
-    display: block;
-    color: #aaa;
-    margin-bottom: 10px;
-    text-decoration: none;
-    font-size: 0.9rem;
-}
-
-/* 6. ESTILO DE ARTÍCULOS Y IMÁGENES */
-article {
-    margin-bottom: 40px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #333;
-}
-
-h2, h3 {
-    margin-bottom: 15px;
-    color: #fff;
 }
 
 .carrusel-interno {
     display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    margin: 15px 0;
+    width: 300%; 
+    height: 100%;
+    animation: carruselAnim 10s infinite;
 }
 
 .carrusel-interno img {
-    height: 150px;
-    border: 1px solid #444;
-    border-radius: 4px;
+    width: 100.33%; /* Pequeño ajuste para evitar bordes blancos */
+    height: 100%;
+    object-fit: cover;
 }
 
-/* 7. FOOTER */
-footer {
-    margin-top: 30px;
+@keyframes carruselAnim {
+    0%, 30% { transform: translateX(0%); }
+    33%, 63% { transform: translateX(-33.33%); }
+    66%, 96% { transform: translateX(-66.66%); }
+    100% { transform: translateX(0%); }
+}
+
+/* TARJETAS DE PERSONAJES */
+article {
+    background: #15181e;
     padding: 20px;
-    text-align: center;
-    border-top: 1px solid #333;
-    color: #666;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Imagen de fondo SOLO en sección profesores cuando está activa */
+#profesores.bloque:target {
+    background-image: url('img/image-profesores.jpg'); /* Cambia por tu imagen */
+    background-size: cover;     /* Cubre toda la sección sin distorsión */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* No repite la imagen */
+    background-attachment: fixed; /* Fija al scroll (opcional, crea parallax) */
+    min-height: 100vh;          /* Altura completa de viewport para mejor efecto */
+    padding-top: 280px;         /* Ajusta para menú sticky */
+}
+
+#villanos.bloque:target {
+    background-image: url('img/imagen-villanos.jpg'); /* Cambia por tu imagen */
+    background-size: cover;     /* Cubre toda la sección sin distorsión */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* No repite la imagen */
+    background-attachment: fixed; /* Fija al scroll (opcional, crea parallax) */
+    min-height: 100vh;          /* Altura completa de viewport para mejor efecto */
+    padding-top: 280px;         /* Ajusta para menú sticky */
 }
