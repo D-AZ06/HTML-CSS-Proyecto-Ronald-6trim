@@ -1,43 +1,60 @@
-/* RESET */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Segoe UI', sans-serif; background: #0b0e14; color: white; scroll-behavior: smooth; }
-
-h2 {
-    text-align: center;
+/* =======================================================
+   RESET GENERAL
+   ======================================================= */
+html {
+    scroll-behavior: smooth;
 }
 
-/* HEADER TIPO FACEBOOK */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #0b0e14;
+    color: white;
+    scroll-behavior: smooth;
+}
+
+
+/* =======================================================
+   HEADER GRANDE (NO STICKY)
+   ======================================================= */
 header {
-    position: sticky;
-    top: -265px; /* Aumentamos un poco más para asegurar el cierre total */
-    z-index: 1000;
     background: #1a1d23;
-    text-align: center;
-    overflow: hidden; /* Corta cualquier sobrante de imagen */
 }
 
+/* Contenedor superior del header */
 .header-top {
-    padding: 10px;
-    /* Ajustamos la altura para que el logo y textos queden cómodos */
-    min-height: 250px; 
+    padding: 20px 10px;
+    min-height: 250px; /* Tamaño grande del header */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
+/* Logo */
 .header-top img {
-    max-width: 80%; /* Evita que el logo se salga de la pantalla */
+    max-width: 80%;
     height: auto;
     margin-bottom: 10px;
 }
 
+
+/* =======================================================
+   MENÚ STICKY REAL (SOLO LA BARRA)
+   ======================================================= */
 .barra-menu {
     position: sticky;
-    top: 0; 
+    top: 0;
+    z-index: 1000;
     background: #1a1d23;
     padding: 15px 0;
     border-bottom: 2px solid #ed1c24;
+    text-align: center
 }
 
 .menu {
@@ -53,38 +70,115 @@ header {
     text-decoration: none;
     border-radius: 5px;
     font-size: 0.9rem;
+    transition: 0.3s;
 }
 
-/* --- LÓGICA DE SECCIONES (FIJADA) --- */
+.menu a:hover {
+    background: #ed1c24;
+}
 
-main { padding: 20px; }
 
-/* 1. Ocultar todas las secciones por defecto */
+/* =======================================================
+   CONTENIDO PRINCIPAL
+   ======================================================= */
+main {
+    padding: 20px;
+}
+
+
+/* =======================================================
+   SISTEMA DE SECCIONES (TARGET)
+   ======================================================= */
+
+/* Oculta todas las secciones */
 .bloque {
     display: none;
-    padding-top: 100px;    /* Empuja el título hacia abajo para que el menú no lo tape */
-    margin-top: -60px;     /* Compensa el espacio para que no haya un hueco negro gigante */
+    scroll-margin-top: 160px; /* El espacio mágico para el menú sticky */
+    padding-top: 20px;       /* Un padding normal para que el título no pegue al menú */
 }
 
-/* 2. Mostrar la sección que sea el "Target" (clic en el menú) */
+/* Muestra solo la sección activa */
 .bloque:target {
-    display: block !important;
-    padding-top: 280px;    /* ← Aumenta: 250px(.header-top) + 30px(.barra-menu) */
-    margin-top: -60px;
+    display: block;
 }
 
-/* 3. Lógica especial para INICIO: 
-   Se muestra si la URL termina en index.html, en "/" o en "#inicio" */
+
+/* Inicio visible por defecto */
 #inicio {
-    display: block; 
+    display: block;
 }
 
-/* 4. Si hay OTRO target que NO sea inicio, ocultamos el inicio definitivamente */
+/* Si hay otra sección activa, ocultar inicio */
 body:has(section:target:not(#inicio)) #inicio {
     display: none;
 }
 
-/* --- CARRUSEL AUTOMÁTICO --- */
+
+/* =======================================================
+   SECCIONES CON FONDO FULLSCREEN
+   ======================================================= */
+#inicio.bloque:target,
+#estudiantes.bloque:target,
+#profesores.bloque:target,
+#villanos.bloque:target {
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    padding-top: 40px;
+}
+
+/* Imágenes de fondo */
+#inicio.bloque:target {
+    background-image: url('img/imagen-inicio.jpg');
+}
+
+#estudiantes.bloque:target {
+    background-image: url('img/imagen-estudiantes.jpg');
+}
+
+#profesores.bloque:target {
+    background-image: url('img/image-profesores.jpg');
+}
+
+#villanos.bloque:target {
+    background-image: url('img/imagen-villanos.jpg');
+}
+
+
+/* =======================================================
+   TÍTULOS
+   ======================================================= */
+h2 {
+    text-align: center;
+    padding: 30px 10px;
+}
+
+h3 {
+    text-align: center;
+    padding: 10px;
+}
+
+
+/* =======================================================
+   TARJETAS DE PERSONAJES
+   ======================================================= */
+article {
+    background: rgba(21, 24, 30, 0.92);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* =======================================================
+   CARRUSEL AUTOMÁTICO
+   ======================================================= */
 .carrusel {
     width: 100%;
     max-width: 500px;
@@ -97,53 +191,36 @@ body:has(section:target:not(#inicio)) #inicio {
 
 .carrusel-interno {
     display: flex;
-    width: 300%; 
+    width: 300%;
     height: 100%;
     animation: carruselAnim 10s infinite;
 }
 
 .carrusel-interno img {
-    width: 100.33%; /* Pequeño ajuste para evitar bordes blancos */
+    width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; 
+    /* Opcional: añade un fondo negro para que los bordes no sean transparentes */
+    background-color: black;
 }
 
 @keyframes carruselAnim {
-    0%, 30% { transform: translateX(0%); }
-    33%, 63% { transform: translateX(-33.33%); }
-    66%, 96% { transform: translateX(-66.66%); }
-    100% { transform: translateX(0%); }
+    0%, 30%   { transform: translateX(0%); }
+    33%, 63%  { transform: translateX(-33.33%); }
+    66%, 96%  { transform: translateX(-66.66%); }
+    100%      { transform: translateX(0%); }
 }
 
-/* TARJETAS DE PERSONAJES */
-article {
-    background: #15181e;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
+/* =======================================================
+   GIF
+   ======================================================= */
 
-
-/* Imagen de fondo SOLO en sección profesores cuando está activa */
-#profesores.bloque:target {
-    background-image: url('img/image-profesores.jpg'); /* Cambia por tu imagen */
-    background-size: cover;     /* Cubre toda la sección sin distorsión */
-    background-position: center; /* Centra la imagen */
-    background-repeat: no-repeat; /* No repite la imagen */
-    background-attachment: fixed; /* Fija al scroll (opcional, crea parallax) */
-    min-height: 100vh;          /* Altura completa de viewport para mejor efecto */
-    padding-top: 280px;         /* Ajusta para menú sticky */
-}
-
-#villanos.bloque:target {
-    background-image: url('img/imagen-villanos.jpg'); /* Cambia por tu imagen */
-    background-size: cover;     /* Cubre toda la sección sin distorsión */
-    background-position: center; /* Centra la imagen */
-    background-repeat: no-repeat; /* No repite la imagen */
-    background-attachment: fixed; /* Fija al scroll (opcional, crea parallax) */
-    min-height: 100vh;          /* Altura completa de viewport para mejor efecto */
-    padding-top: 280px;         /* Ajusta para menú sticky */
+.gif {
+    display: block;          /* Elimina espacios extra abajo */
+    margin: 20px auto;      /* Centra el GIF horizontalmente */
+    max-width: 100%;        /* Evita que se salga de la tarjeta */
+    height: auto;           /* Mantiene la proporción original sin deformar */
+    border-radius: 8px;     /* Bordes redondeados para que combine con tu diseño */
+    border: 2px solid #ed1c24; /* Opcional: un borde rojo como tu menú */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Sombra para darle profundidad */
 }
