@@ -173,7 +173,15 @@ article {
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
+
+article:hover {
+    transform: scale(1.03);
+    background: rgba(35, 40, 50, 0.95);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+}
+
 
 
 /* =======================================================
@@ -223,4 +231,61 @@ article {
     border-radius: 8px;     /* Bordes redondeados para que combine con tu diseño */
     border: 2px solid #ed1c24; /* Opcional: un borde rojo como tu menú */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Sombra para darle profundidad */
+}
+
+
+/* =======================================================
+   BOTONES DECORATIVOS
+   ======================================================= */
+
+.acciones {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background: #2a2e35;
+    color: white;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+/* Hover general */
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* Colores individuales */
+.like:hover {
+    background: #ff2e63;
+}
+
+.comentar:hover {
+    background: #9c27b0;
+}
+
+.compartir:hover {
+    background: #0077ff;
+}
+
+
+/* =======================================================
+   ANIMACIONES Y FLUIDEZ GENERAL
+   ======================================================= */
+
+/* Aparición suave de secciones */
+.bloque:target {
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
