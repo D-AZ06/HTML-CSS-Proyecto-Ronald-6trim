@@ -472,3 +472,7 @@ footer {
     transform: scale(0.9); /* Reduce el tamaño general un 10% adicional */
     transform-origin: center; /* Asegura que la reducción de tamaño sea desde el centro */
 }
+
+.bloque:not(:target) {
+    display: none; /* Quitamos el !important para que sea menos agresivo */
+}
