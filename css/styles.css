@@ -467,3 +467,36 @@ footer {
     box-shadow: 0 4px 15px rgba(237, 28, 36, 0.3); /* Resplandor rojo */
     background-color: #000; /* Fondo negro por si el video no carga */
 }
+
+/*============================================================
+MUSICA
+==============================================*/
+/* Contenedor en la esquina inferior derecha más compacto */
+.contenedor-audio-fijo {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
+    
+    /* Diseño igual al resto de tu web */
+    background: rgba(21, 24, 30, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 6px 10px; /* Reducimos padding */
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 2px solid #ed1c24;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Reducimos el tamaño del reproductor nativo */
+.reproductor-estilo {
+    height: 30px; /* Antes era 40px */
+    width: 180px;  /* Ancho más corto */
+    display: block;
+    filter: invert(100%) hue-rotate(180deg) brightness(1.2);
+    
+    /* Esta línea lo hace un poco más pequeño visualmente sin romper los botones */
+    transform: scale(0.9); 
+    transform-origin: center;
+}
