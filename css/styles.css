@@ -23,7 +23,7 @@ body {
    HEADER GRANDE (NO STICKY)
    ======================================================= */
 header {
-    background: #1a1d23;
+    background: rgba(21, 24, 30, 0.75); /* El mismo color de tus tarjetas */
 }
 
 /* Contenedor superior del header */
@@ -50,16 +50,25 @@ header {
 .barra-menu {
     position: sticky;
     top: 0;
-    z-index: 1000;
-    background: #1a1d23;
+    z-index: 1000; /* Un valor alto para que siempre esté al frente */
+    background: #0b0e14; /* Importante que tenga fondo para que no se vea lo de abajo */
+    /* ... resto de tus estilos ... */
+    
+    /* Efecto igual al de tus articles */
+    background: rgba(21, 24, 30, 0.75); /* El mismo color de tus tarjetas */
+    backdrop-filter: blur(10px); /* Desenfoque de fondo */
+    -webkit-backdrop-filter: blur(10px);
+    
+    /* Dimensiones de barra completa */
+    width: 100%; 
     padding: 15px 0;
-    border-bottom: 2px solid #ed1c24;
-    text-align: center
-}
+    
+    /* Estética */
+    border-bottom: 2px solid #ed1c24; /* Mantenemos tu línea roja distintiva */
+    box-shadow: 0 4px 15px rgba(237, 28, 36, 0.3); /* Resplandor rojo suave */
+    text-align: center;
 
-.barra-menu{
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-radius: 20px
 }
 
 .menu {
@@ -70,7 +79,7 @@ header {
 
 .menu a {
     padding: 8px 15px;
-    background: #2a2e35;
+    background: rgba(255, 255, 255, 0.05); /* Fondo casi invisible */
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -79,7 +88,9 @@ header {
 }
 
 .menu a:hover {
-    background: #ed1c24;
+    background: #ed1c24; /* El color que ya tenías */
+    transform: scale(1.1); /* Lo hace un poco más grande */
+    box-shadow: 0 5px 15px rgba(237, 28, 36, 0.4); /* Sombra roja opcional para dar profundidad */
 }
 
 
@@ -96,28 +107,124 @@ main {
    ======================================================= */
 
 /* Oculta todas las secciones */
+/* =======================================================
+   SISTEMA DE SECCIONES MEJORADO
+   ======================================================= */
+
+/* En lugar de display: none, usamos opacidad y altura cero */
+/* Oculta todas las secciones por defecto */
 .bloque {
-    display: none;
-    scroll-margin-top: 160px; /* El espacio mágico para el menú sticky */
-    padding-top: 20px;       /* Un padding normal para que el título no pegue al menú */
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    scroll-margin-top: 100px; 
+    padding-top: 0 !important; /* Elimina padding que causa espacio */
+    margin-top: 0 !important;
 }
 
-/* Muestra solo la sección activa */
+/* Cuando la sección es el objetivo (Target) */
 .bloque:target {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+    overflow: visible;
+    display: flex !important; /* Fuerza flexbox */
+    align-items: flex-start;
+    gap: 20px;
+    padding-top: 20px; /* ESPACIO JUSTO DEBAJO DEL MENÚ */
+    min-height: 100vh;
+    animation: fadeIn 0.5s ease;
 }
 
-
-/* Inicio visible por defecto */
+/* Sección inicio visible por defecto */
 #inicio {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+    display: flex;
+    padding-top: 20px;
 }
 
-/* Si hay otra sección activa, ocultar inicio */
+/* Oculta inicio cuando otra sección está activa */
 body:has(section:target:not(#inicio)) #inicio {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
 }
 
+/* =======================================================
+   CONTENIDO DENTRO DE FLEX (nueva regla)
+   ======================================================= */
+.bloque:target > .contenido,
+#inicio .contenido {
+    flex: 1; /* Ocupa todo el espacio disponible */
+    margin-left: 0 !important; /* Elimina márgenes que empujan abajo */
+    padding-top: 0;
+}
+
+
+/* =======================================================
+   GLOSARIO LATERAL PROFESIONAL
+   ======================================================= */
+/* Contenedor de la sección para que el menú sepa dónde ubicarse */
+.bloque {
+    display: flex;             /* Pone el menú y la info uno al lado del otro */
+    align-items: flex-start;   /* Obliga a que ambos empiecen desde arriba */
+    gap: 20px;                 /* Espacio entre el menú y la info */
+    padding-top: 20px;         /* Ajusta este número para subir o bajar todo el bloque */
+    margin-top: 0;             /* Elimina espacios extra entre secciones */
+}
+
+.menu-interno {
+    position: sticky;
+    left: 30px;
+    top: 180px; /* Baja el menú para que no tape el logo/header */
+    flex-shrink: 0; /* No se comprime */
+    width: 200px;
+    min-width: 200px;
+    height: fit-content;
+    background: rgba(21, 24, 30, 0.8);
+    backdrop-filter: blur(10px);
+    border-left: 3px solid #ed1c24;
+    padding: 15px;
+    border-radius: 0 15px 15px 0;
+    box-shadow: 10px 0 20px rgba(0,0,0,0.5);
+    z-index: 1001;
+}
+
+.menu-titulo {
+    color: #ed1c24;
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+    border-bottom: 1px solid rgba(237, 28, 36, 0.3);
+    padding-bottom: 5px;
+    scroll-margin-top: 150px; /* Espacio extra para menú sticky */
+}
+
+.menu-interno a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 8px 0;
+    transition: 0.3s;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.menu-interno a:hover {
+    color: #ed1c24;
+    padding-left: 10px;
+}
+
+/* Ajuste para que el contenido no se pegue al menú */
+@media (max-width: 1200px) {
+    .bloque { padding-left: 20px; }
+    .menu-interno { display: none; } /* Se oculta en pantallas chicas */
+}
 
 /* =======================================================
    SECCIONES CON FONDO FULLSCREEN
@@ -172,14 +279,18 @@ h3 {
    TARJETAS DE PERSONAJES
    ======================================================= */
 article {
-    background: rgba(21, 24, 30, 0.85);
+    background: rgba(21, 24, 30, 0.75); /* Bajamos un poco la opacidad */
+    backdrop-filter: blur(8px); /* Desenfoque más suave que el del menú */
     padding: 20px;
     margin-bottom: 20px;
-    border-radius: 10px;
+    border-radius: 15px; /* Bordes un poco más circulares */
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05); /* Ayuda a que la tarjeta no se pierda */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Sombra para darle profundidad */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    scroll-margin-top: 120px; /* Esto deja espacio para la barra menú cuando saltas al personaje */
 }
 
 article:hover {
@@ -188,6 +299,16 @@ article:hover {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
 }
 
+.contenido {
+    padding: 0 20px;
+    max-width: 1000px; /* Limita el ancho total */
+    margin: 0 auto; /* Centra el contenedor entero */
+}
+
+.contenido article {
+    width: calc(100% - 40px); /* Resta padding de los lados */
+    max-width: 750px;
+}
 
 
 /* =======================================================
@@ -201,6 +322,7 @@ article:hover {
     overflow: hidden;
     border-radius: 12px;
     border: 1px solid #333;
+    box-shadow: 0 5px 15px rgba(237, 28, 36, 0.4); /* Sombra roja opcional para dar profundidad */
 }
 
 .carrusel-interno {
@@ -236,7 +358,7 @@ article:hover {
     height: auto;           /* Mantiene la proporción original sin deformar */
     border-radius: 8px;     /* Bordes redondeados para que combine con tu diseño */
     border: 2px solid #ed1c24; /* Opcional: un borde rojo como tu menú */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Sombra para darle profundidad */
+    box-shadow: 0 4px 15px rgba(237, 28, 36, 0.3); /* Resplandor rojo suave */
 }
 
 
@@ -301,14 +423,19 @@ article:hover {
    FOOTER
    ======================================================= */
 
-   footer {
-    background: #1a1d23;
+footer {
+    background: rgba(21, 24, 30, 0.75); /* El mismo color de tus tarjetas */
+    backdrop-filter: blur(10px); /* Desenfoque de fondo */
+    -webkit-backdrop-filter: blur(10px);
     color: #ffffff;
     text-align: center;
     padding: 20px 10px;
     margin-top: 40px;
     border-top: 2px solid #ed1c24;
-    border-top-left-radius: 18px;
-    border-top-right-radius: 18px;
+    box-shadow: 0 4px 15px rgba(237, 28, 36, 0.3); /* Resplandor rojo suave */
+}
+
+footer {
+    border-radius: 12px
 }
 
