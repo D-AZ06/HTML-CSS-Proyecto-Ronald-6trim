@@ -16,8 +16,12 @@ body {
     background: #0b0e14;
     color: white;
     scroll-behavior: smooth;
+    
 }
 
+main {
+    padding: 20px;
+}
 
 /* =======================================================
    HEADER GRANDE (NO STICKY)
@@ -97,9 +101,7 @@ header {
 /* =======================================================
    CONTENIDO PRINCIPAL
    ======================================================= */
-main {
-    padding: 20px;
-}
+
 
 
 /* =======================================================
@@ -113,39 +115,54 @@ main {
 
 /* En lugar de display: none, usamos opacidad y altura cero */
 /* Oculta todas las secciones por defecto */
-.bloque {
-    opacity: 0;
-    visibility: hidden;
-    height: 0;
-    overflow: hidden;
-    transition: all 0.5s ease;
-    scroll-margin-top: 100px; 
-    padding-top: 0 !important; /* Elimina padding que causa espacio */
-    margin-top: 0 !important;
+/* Todas las secciones ocultas por defecto */ 
+.bloque { 
+    opacity: 0; 
+    visibility: hidden; 
+    height: 0; 
+    transition: all 0.5s ease; 
+    scroll-margin-top: 130px;
+} /* Cada sección visible cuando es target */ 
+
+.bloque:target { 
+    opacity: 1; 
+    visibility: visible; 
+    height: auto; 
+    display: flex !important; 
+    justify-content: flex-start; /* Centra horizontalmente */ 
+    align-items: flex-start; /* O usa center si quieres centrado vertical */ 
+    gap: 20px; 
+    padding-top: 20px; 
+    min-height: 100vh;
+    animation: fadeIn 0.5s ease; 
 }
 
-/* Cuando la sección es el objetivo (Target) */
-.bloque:target {
+section:has(article:target) {
     opacity: 1;
     visibility: visible;
     height: auto;
     overflow: visible;
-    display: flex !important; /* Fuerza flexbox */
+    display: flex !important;
     align-items: flex-start;
     gap: 20px;
-    padding-top: 20px; /* ESPACIO JUSTO DEBAJO DEL MENÚ */
+    padding-top: 20px;
     min-height: 100vh;
-    animation: fadeIn 0.5s ease;
 }
 
 /* Sección inicio visible por defecto */
-#inicio {
-    opacity: 1;
-    visibility: visible;
-    height: auto;
-    display: flex;
-    padding-top: 20px;
-}
+#inicio { 
+    opacity: 0; 
+    visibility: hidden; 
+    height: 0; 
+} 
+
+#inicio:target { 
+    opacity: 1; 
+    visibility: visible; 
+    height: auto; 
+    display: flex; 
+    justify-content: center; 
+    padding-top: 20px; }
 
 /* Oculta inicio cuando otra sección está activa */
 body:has(section:target:not(#inicio)) #inicio {
@@ -157,25 +174,17 @@ body:has(section:target:not(#inicio)) #inicio {
 /* =======================================================
    CONTENIDO DENTRO DE FLEX (nueva regla)
    ======================================================= */
-.bloque:target > .contenido,
-#inicio .contenido {
-    flex: 1; /* Ocupa todo el espacio disponible */
-    margin-left: 0 !important; /* Elimina márgenes que empujan abajo */
-    padding-top: 0;
+.bloque:target > .contenido {
+    flex: 1;
+    margin: 0 auto;
+    max-width: 1000px;
 }
-
 
 /* =======================================================
    GLOSARIO LATERAL PROFESIONAL
    ======================================================= */
 /* Contenedor de la sección para que el menú sepa dónde ubicarse */
-.bloque {
-    display: flex;             /* Pone el menú y la info uno al lado del otro */
-    align-items: flex-start;   /* Obliga a que ambos empiecen desde arriba */
-    gap: 20px;                 /* Espacio entre el menú y la info */
-    padding-top: 20px;         /* Ajusta este número para subir o bajar todo el bloque */
-    margin-top: 0;             /* Elimina espacios extra entre secciones */
-}
+
 
 .menu-interno {
     position: sticky;
@@ -192,6 +201,7 @@ body:has(section:target:not(#inicio)) #inicio {
     border-radius: 0 15px 15px 0;
     box-shadow: 10px 0 20px rgba(0,0,0,0.5);
     z-index: 1001;
+    align-self: flex-start;
 }
 
 .menu-titulo {
@@ -238,28 +248,27 @@ body:has(section:target:not(#inicio)) #inicio {
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    min-height: 100vh;
+    /*min-height: 100vh; */
     padding-top: 40px;
     border-radius: 18px 18px 18px 18px;
 }
 
 /* Imágenes de fondo */
-#inicio.bloque:target {
+#inicio {
     background-image: url('img/imagen-inicio.jpg');
 }
 
-#estudiantes.bloque:target {
+#estudiantes {
     background-image: url('img/imagen-estudiantes.jpg');
 }
 
-#profesores.bloque:target {
+#profesores {
     background-image: url('img/image-profesores.jpg');
 }
 
-#villanos.bloque:target {
+#villanos {
     background-image: url('img/imagen-villanos.jpg');
 }
-
 
 /* =======================================================
    TÍTULOS
@@ -300,6 +309,7 @@ article:hover {
 }
 
 .contenido {
+    flex: 1;
     padding: 0 20px;
     max-width: 1000px; /* Limita el ancho total */
     margin: 0 auto; /* Centra el contenedor entero */
@@ -430,12 +440,13 @@ footer {
     color: #ffffff;
     text-align: center;
     padding: 20px 10px;
-    margin-top: 40px;
+    margin-top: 0;
     border-top: 2px solid #ed1c24;
     box-shadow: 0 4px 15px rgba(237, 28, 36, 0.3); /* Resplandor rojo suave */
 }
 
 footer {
     border-radius: 12px
+    
 }
 
