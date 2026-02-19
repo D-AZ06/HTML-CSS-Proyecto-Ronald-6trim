@@ -137,6 +137,10 @@ header {
     animation: fadeIn 0.5s ease; 
 }
 
+.bloque:not(:target) {
+    display: none !important;
+}
+
 section:has(article:target) {
     opacity: 1;
     visibility: visible;
@@ -450,3 +454,16 @@ footer {
     
 }
 
+/* =======================================================
+   VIDEOS Y AUDIOS (ESTILO IGUAL AL GIF)
+   ======================================================= */
+
+.video-custom{
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    border-radius: 8px;
+    border: 2px solid #ed1c24; /* El rojo de tu marca */
+    box-shadow: 0 4px 15px rgba(237, 28, 36, 0.3); /* Resplandor rojo */
+    background-color: #000; /* Fondo negro por si el video no carga */
+}
